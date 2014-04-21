@@ -1,0 +1,27 @@
+{
+  "name": "graph",
+  "version": "0.0.1",
+  "description": "Open Graph API",
+  "keywords": [
+    "pirate",
+    "party",
+    "graph",
+    "api"
+  ],
+  "author": {
+    "name": "Tomáš Klapka",
+    "email": "tomas@klapka.cz"
+  },
+  "license": "LGPL-3.0+",
+  "main": "./index",
+  "scripts": {
+    "test": "mocha -R spec ./test",
+    "prepublish": "coffee -o ./lib/ -c ./src/"
+  },
+  "devDependencies": {
+    "async": "~0.2.9",
+    "mocha": "~1.16.2",
+    "should": "~2.1.1",
+    "coffee-script": "~1.6.3"
+  }
+}
