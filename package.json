@@ -15,7 +15,7 @@
   "license": "LGPL-3.0+",
   "main": "./index",
   "scripts": {
-    "test": "mocha -R spec ./test",
+    "test": "coffee -o ./test/ -c ./test/src/ && mocha -R spec ./test",
     "prepublish": "coffee -o ./lib/ -c ./src/"
   },
   "devDependencies": {
