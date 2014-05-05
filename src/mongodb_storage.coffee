@@ -11,24 +11,55 @@ class MongoDBStorage
     for plugin_name of @plugins
       schema.plugin(@plugins[plugin_name])
 
-  create: (schema, properties_object, callback) ->
-    model = @model(schema)
-    object = new model(properties_object)
+  create: (query, callback) ->
+    model = @model(query.schema)
+    object = new model(object)
     object.save(callback)
 
-  read: (schema, search_options, callback) ->
-    model = @model(schema)
-    model.find(search_options, (err, data) -> callback(data))
+  read: (query, callback) ->
+    model = @model(query.schema)
+    search_query = query.search_query || {}
+    conditions = search_query.conditions || {}
+    dbquery = model.find(conditions)
+
+    properties = search_query.property?.join(' ') || undefined
+    if properties
+      dbquery = dbquery.select(properties)
+
+    MongoDBStorage.add_uniq_search_option(dbquery, search_query, 'limit')
+    MongoDBStorage.add_uniq_search_option(dbquery, search_query, 'skip')
+    MongoDBStorage.add_multiple_search_option(dbquery, search_query, 'sort')
+    MongoDBStorage.add_multiple_search_option(dbquery, search_query, 'populate')
+
+    dbquery.exec((err, data) -> callback(data))
+
+  update: (query, callback) ->
+    model = @model(query.schema)
+
+  delete: (query, callback) ->
 
   model: (args...) ->
     return @mongoose.model(args...)
 
-  update: (schema, properties_object, update_options, callback) ->
-    model = @model(schema)
-
-  delete: (schema, options, callback) ->
-
   disconnect: () ->
     @connection.close()
+
+  @add_uniq_search_option: (dbquery, search_query, option) ->
+    value = search_query[option]
+    if value and typeof value == 'array'
+      value = value.pop()
+    if value
+      dbquery = dbquery[option](value)
+    return dbquery
+
+  @add_multiple_search_option: (dbquery, search_query, option) ->
+    values = search_query[option]
+    if values and typeof values == 'string'
+      values = [values]
+
+    if values
+      dbquery = dbquery[option](value) for value in values
+    return dbquery
+
 
 module.exports = MongoDBStorage

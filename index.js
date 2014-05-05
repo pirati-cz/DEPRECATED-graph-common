@@ -38,14 +38,15 @@ var gql_script = [
 	'echo read { "name": "dummy1"}',
 	'echo/redirect read { "name": "dummy2"}',
 //  'node create { "name": "mirror", "path": "mirror", "router": "StorageRouter", "configuration": { "schema": "Node" } }',
-  'mirror read'].join("\n");
+  'mirror/?property=name&property=path&skip=0&limit=2&conditions={"name":"mirror"}&sort=-name read',
+  'mirror/53673fac16c3f9ce329aa6c9 read'].join("\n");
 
 function display_object(query) {
-  if (typeof (query.data) === 'string') {
-    console.log(JSON.parse(query.data));
+  if (typeof (query.result) === 'string') {
+    console.log(JSON.parse(query.result));
     return;
   }
-  console.log(query.data);
+  console.log(query.result);
 }
 var graph = new Graph(cm, function () {
   graph.run(gql_script, display_object);

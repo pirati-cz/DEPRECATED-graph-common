@@ -2,32 +2,14 @@ class StorageRouter
 
   @route: (query, callback) ->
     db = query.graph.storage_manager.database
-    options = query.node.configuration
-    schema = options.schema
+    query.schema = query.node.configuration.schema
     query.data = JSON.parse(query.data) if typeof query.data is 'string'
 
-    switch query.action
-      when "create"
-        db.create(schema, query.data, (data) ->
-          query.data = data
-          callback(query))
-        return
-      when "read"
-        db.read(schema, {}, (data) ->
-          query.data = data
-          callback(query))
-        return
-      when "update"
-        db.update(schema, query.data, {}, (data) ->
-          query.data = data
-          callback(query))
-        return
-      when "delete"
-        db.delete(schema, {}, (data) ->
-          query.data = data
-          callback(query))
-        return
-
-    callback(null)
+    if query.action in ['create', 'read', 'update', 'delete']
+      db[query.action](query, (result) ->
+        query.result = result
+        callback(query))
+    else
+      callback(null)
 
 module.exports = StorageRouter
