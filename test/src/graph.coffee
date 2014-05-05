@@ -1,9 +1,9 @@
 'use strict';
 
 should = require('should')
-ConfigurationManager = require('../lib/configuration_manager')
-Graph = require('../lib/graph')
-Query = require('../lib/query')
+ConfigurationManager = require('../../lib/configuration_manager')
+Graph = require('../../lib/graph')
+Query = require('../../lib/query')
 
 describe('Graph', () ->
 
@@ -14,12 +14,12 @@ describe('Graph', () ->
       cm = new ConfigurationManager({
         name: "Open Graph API",
         di: {
-          Storage: './storage',
+          StorageManager: './storage_manager',
           NodeManager: './node_manager',
           RouteManager: './route_manager',
           GQL: './gql'
         },
-        Storage: "mongodb://localhost/graph",
+        StorageManager: "mongodb://localhost/graph",
         NodeManager: { 
           "node/one" : { name: "node/one", router: 'EchoRouter' }
         },
@@ -31,7 +31,7 @@ describe('Graph', () ->
       graph.should.be.instanceof(Graph)
       should(graph.route_manager).be
       should(graph.node_manager).be
-      should(graph.storage).be
+      should(graph.storage_manager).be
       data = '{ "test": "value" }'
       query = new Query('node/one', 'create', data)
       graph.query(query, (query) ->

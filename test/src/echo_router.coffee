@@ -1,8 +1,8 @@
 'use strict'
 
 should = require('should')
-EchoRouter = require('../lib/echo_router')
-Query = require('../lib/query')
+EchoRouter = require('../../lib/echo_router')
+Query = require('../../lib/query')
 
 describe('EchoRouter', () ->
 

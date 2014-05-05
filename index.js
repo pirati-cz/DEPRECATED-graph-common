@@ -1,34 +1,55 @@
 var ConfigurationManager = require('./lib/configuration_manager');
 var Graph = require('./lib/graph');
 
+mongo_host = process.env.DB_PORT_27017_TCP_ADDR || 'localhost';
+mongo_port = process.env.DB_PORT_27017_TCP_PORT || '27017';
+mongo_database = 'graph'
+mongo_uri = "mongodb://"+mongo_host+":"+mongo_port+"/"+mongo_database
+
 var cm = new ConfigurationManager({
   name: "Piráti Open Graph API",
   di: {
-    Storage: './storage',
+    StorageManager: './storage_manager',
+    SchemaManager: './schema_manager',
     NodeManager: './node_manager',
-    RouteManager: './route_manager',
+    RouterManager: './router_manager',
     GQL: './gql'
   },
-  Storage: "mongodb://localhost/graph",
-  NodeManager: { 
-    "test1" : { name: "test1", router: 'EchoRouter' },
-    "test2" : { name: "test2", router: 'RedirectRouter', options: { redirect: "test1" } }
+  SchemaManager: {
+    "Schema": "./schema_schema",
+    "Node": "./node_schema",
+    "Router": "./router_schema"
   },
-  RouteManager: {
+  StorageManager: mongo_uri,
+  NodeManager: {
+    "echo" : { name: "echo", path: "echo", router: 'EchoRouter' },
+    "echo/redirect" : { name: "redirect", path: "echo/redirect", router: 'RedirectRouter', configuration: { redirect: "echo" } },
+    "node" : { name: "node", path: "node", router: 'StorageRouter', configuration: { schema: "Node" } }
+  },
+  RouterManager: {
     "EchoRouter" : { name: "EchoRouter", require: "./echo_router" },
-    "RedirectRouter" : { name: "RedirectRouter", require: "./redirect_router" }
+    "RedirectRouter" : { name: "RedirectRouter", require: "./redirect_router" },
+    "StorageRouter" : { name: "StorageRouter", require: "./storage_router" }
   },
 });
 
-var graph = new Graph(cm);
+var gql_script = [
+	'echo read { "name": "dummy1"}',
+	'echo/redirect read { "name": "dummy2"}',
+//  'node create { "name": "mirror", "path": "mirror", "router": "StorageRouter", "configuration": { "schema": "Node" } }',
+  'mirror read'].join("\n");
 
 function display_object(object) {
-  console.log(JSON.parse(object.data));
+  if (typeof (object.data) === 'string') {
+    console.log(JSON.parse(object.data));
+    return;
+  }
+  console.log(object.data);
 }
+var graph = new Graph(cm, function () {
+  graph.run(gql_script, display_object);
+});
 
-var gql_script = [
-	'test1 read { "name": "dummy1"}',
-	'test2 read { "name": "dummy2"}',
-	'test3 read { "name": "dummy3"}'].join("\n");
-
-graph.run(gql_script,	display_object);
+setTimeout(function () {
+  graph.disconnect();
+}, 1000);

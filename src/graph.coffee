@@ -1,14 +1,19 @@
 GQL = null
-Storage = null
-RouteManager = null
+SchemaManager = null
+StorageManager = null
+RouterManager = null
 NodeManager = null
+
+Node = null
+Schema = null
+Router = null
 
 class Graph
 
-  constructor: (configuration_manager) ->
+  constructor: (configuration_manager, done) ->
     @configure(configuration_manager)
     @inject()
-    @instantiate()
+    @instantiate(done)
 
   configure: (configuration_manager) ->
     @configuration_manager = configuration_manager
@@ -17,14 +22,19 @@ class Graph
   inject: () ->
     di = @configuration.di
     GQL = require(di.GQL)
-    Storage = require(di.Storage)
-    RouteManager = require(di.RouteManager)
+    StorageManager = require(di.StorageManager)
+    RouterManager = require(di.RouterManager)
     NodeManager = require(di.NodeManager)
+    SchemaManager = require(di.SchemaManager)
 
-  instantiate: () ->
-    @storage = new Storage(@configuration.Storage)
-    @route_manager = new RouteManager(@configuration.RouteManager)
-    @node_manager = new NodeManager(@configuration.NodeManager, @configuration.RouteManager)
+  instantiate: (done) ->
+    self = @
+    @storage_manager = new StorageManager(@configuration.StorageManager)
+    @database = @storage_manager.database
+    @schema_manager = new SchemaManager(@configuration.SchemaManager, @database)
+    @node_manager = new NodeManager(@configuration.NodeManager, @database, () ->
+      self.router_manager = new RouterManager(self.configuration.RouterManager, self.database)
+      done())
 
   run: (gql, callback) ->
     self = @
@@ -34,8 +44,12 @@ class Graph
 
   query: (query, callback) ->
     query.graph = @
-    node = @node_manager.get_node_for_query(query)
-    Router = @route_manager.get_Router(node.router) if node
-    Router.route(query, callback, node.options) if Router
+    @node_manager.query(query)
+    @router_manager.query(query)
+    query.run(callback)
+
+  disconnect: () ->
+    console.log "disconnecting"
+    @database.disconnect()
 
 module.exports = Graph

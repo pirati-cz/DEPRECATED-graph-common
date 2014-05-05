@@ -1,7 +1,7 @@
 'use strict'
 
 should = require('should')
-Query = require('../lib/query')
+Query = require('../../lib/query')
 
 describe('Query', () ->
 

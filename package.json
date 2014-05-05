@@ -15,7 +15,7 @@
   "license": "LGPL-3.0+",
   "main": "./index",
   "scripts": {
-    "test": "coffee -o ./test/ -c ./test/src/ && mocha -R spec ./test",
+    "test": "coffee -o ./test/lib/ -c ./test/src/ && mocha -R spec ./test/lib",
     "prepublish": "coffee -o ./lib/ -c ./src/"
   },
   "devDependencies": {
@@ -23,5 +23,8 @@
     "mocha": "~1.16.2",
     "should": "~2.1.1",
     "coffee-script": "~1.6.3"
+  },
+  "dependencies": {
+    "mongoose": "~3.8.8"
   }
 }

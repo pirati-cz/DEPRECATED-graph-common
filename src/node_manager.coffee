@@ -1,9 +1,45 @@
 class NodeManager
 
-  constructor: (node_mapping) ->
+  constructor: (node_mapping, database, done) ->
+    @database = database
+    @Node = @database.model('Node')
     @node_mapping = node_mapping
+    @nodes = {}
+    for node_path of node_mapping
+      @add_node(new @Node(node_mapping[node_path]))
+    @load_nodes(done)
 
-  get_node_for_query: (query) ->
-    return @node_mapping[query.node]
+  load_nodes: (done) ->
+    self = @
+    @Node.find({}, (err, nodes) ->
+      self.add_node node for node in nodes
+      done())
+
+  add_node: (node) ->
+    @nodes[node.path] = node
+
+  query: (query, callback) ->
+    if typeof query.node == 'string'
+      node_path = query.node
+      node_path.replace(/^\//g, '').replace(/\/$/g, '')
+      @find_node(node_path, (node) ->
+        query.node = node
+        query.sub_path = node_path.substr(node.path.length, node_path.length - node.path.length)
+        query.node_path = node.path)
+
+  find_node: (node_path, callback) ->
+    unless node_path or node_path = ''
+      node_path = ''
+
+    node = @nodes[node_path]
+    if node
+      callback(node)
+      return node
+
+    if /\//.test(node_path)
+      node_path.replace /\/[^\/]*$/g, ''
+    else
+      node_path = ''
+    return @find_node(node_path, callback)
 
 module.exports = NodeManager

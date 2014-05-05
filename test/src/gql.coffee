@@ -1,8 +1,8 @@
 'use strict';
 
 should = require('should')
-GQL = require('../lib/gql')
-Query = require('../lib/query')
+GQL = require('../../lib/gql')
+Query = require('../../lib/query')
 
 describe('GQL', () ->
 
