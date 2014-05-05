@@ -25,6 +25,7 @@
     "coffee-script": "~1.6.3"
   },
   "dependencies": {
-    "mongoose": "~3.8.8"
+    "mongoose": "~3.8.8",
+    "mongoose-unique-validator": "~0.3.0"
   }
 }

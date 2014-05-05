@@ -1,7 +1,7 @@
 class RouterSchema
 
   @schema = { name: 'Router', definition: {
-      name: String
+      name: { type: String, required: true, unique: true },
       configuration: {}
       }}
 

@@ -22,14 +22,15 @@ var cm = new ConfigurationManager({
   },
   StorageManager: mongo_uri,
   NodeManager: {
-    "echo" : { name: "echo", path: "echo", router: 'EchoRouter' },
-    "echo/redirect" : { name: "redirect", path: "echo/redirect", router: 'RedirectRouter', configuration: { redirect: "echo" } },
-    "node" : { name: "node", path: "node", router: 'StorageRouter', configuration: { schema: "Node" } }
+    "": { name: "root", path: "", router: 'EchoRouter' },
+    "echo": { name: "echo", path: "echo", router: 'EchoRouter' },
+    "echo/redirect": { name: "redirect", path: "echo/redirect", router: 'RedirectRouter', configuration: { redirect: "echo" } },
+    "node": { name: "node", path: "node", router: 'StorageRouter', configuration: { schema: "Node" } }
   },
   RouterManager: {
-    "EchoRouter" : { name: "EchoRouter", require: "./echo_router" },
-    "RedirectRouter" : { name: "RedirectRouter", require: "./redirect_router" },
-    "StorageRouter" : { name: "StorageRouter", require: "./storage_router" }
+    "EchoRouter": { name: "EchoRouter", require: "./echo_router" },
+    "RedirectRouter": { name: "RedirectRouter", require: "./redirect_router" },
+    "StorageRouter": { name: "StorageRouter", require: "./storage_router" }
   },
 });
 
@@ -39,12 +40,12 @@ var gql_script = [
 //  'node create { "name": "mirror", "path": "mirror", "router": "StorageRouter", "configuration": { "schema": "Node" } }',
   'mirror read'].join("\n");
 
-function display_object(object) {
-  if (typeof (object.data) === 'string') {
-    console.log(JSON.parse(object.data));
+function display_object(query) {
+  if (typeof (query.data) === 'string') {
+    console.log(JSON.parse(query.data));
     return;
   }
-  console.log(object.data);
+  console.log(query.data);
 }
 var graph = new Graph(cm, function () {
   graph.run(gql_script, display_object);

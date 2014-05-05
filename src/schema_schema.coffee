@@ -1,7 +1,7 @@
 class SchemaSchema
 
   @schema = { name: 'Schema', definition: {
-      name: String
+      name: { type: String, required: true, unique: true },
       definition: {}
       }}
 

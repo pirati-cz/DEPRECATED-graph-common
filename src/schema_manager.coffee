@@ -32,6 +32,7 @@ class SchemaManager
   load_schema: (schema, callback) ->
     Schema = @database.Schema
     @schemas[schema.name] = new Schema(schema.definition)
+    @database.apply_plugins(@schemas[schema.name])
     callback(@schemas[schema.name]) if callback
 
   model: (schema_name) ->

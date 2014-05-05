@@ -1,9 +1,9 @@
 class NodeSchema
 
   @schema = { name: 'Node', definition: {
-      name: String
-      path: String
-      router: String
+      name: { type: String, required: true, unique: true },
+      path: { type: String, required: true, unique: true },
+      router: { type: String, required: true },
       configuration: {}
       }}
 

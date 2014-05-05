@@ -2,9 +2,14 @@ class MongoDBStorage
 
   constructor: (database_uri) ->
     @mongoose = require('mongoose')
+    @plugins = uniqueValidator: require('mongoose-unique-validator')
     @Schema = @mongoose.Schema
     @db = @mongoose.connect(database_uri)
     @connection = @db.connection
+
+  apply_plugins: (schema) ->
+    for plugin_name of @plugins
+      schema.plugin(@plugins[plugin_name])
 
   create: (schema, properties_object, callback) ->
     model = @model(schema)
