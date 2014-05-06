@@ -49,7 +49,7 @@ class Graph
     query.run(callback)
 
   disconnect: () ->
-    console.log "disconnecting"
+    #console.log "disconnecting"
     @database.disconnect()
 
 module.exports = Graph

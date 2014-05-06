@@ -1,7 +1,7 @@
 {
-  "name": "graph",
+  "name": "graph-common",
   "version": "0.0.1",
-  "description": "Open Graph API",
+  "description": "Open Graph API core js lib",
   "keywords": [
     "pirate",
     "party",
@@ -9,23 +9,27 @@
     "api"
   ],
   "author": {
-    "name": "Tomáš Klapka",
-    "email": "tomas@klapka.cz"
+    "name": "Pirate Party Czech Republic",
+    "email": "dev@pirati.cz"
   },
   "license": "LGPL-3.0+",
   "main": "./index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pirati-cz/graph-common.git"
+  },
   "scripts": {
     "test": "coffee -o ./test/lib/ -c ./test/src/ && mocha -R spec ./test/lib",
     "prepublish": "coffee -o ./lib/ -c ./src/"
+  },
+  "dependencies": {
+    "mongoose": "~3.8.8",
+    "mongoose-unique-validator": "~0.3.0"
   },
   "devDependencies": {
     "async": "~0.2.9",
     "mocha": "~1.16.2",
     "should": "~2.1.1",
     "coffee-script": "~1.6.3"
-  },
-  "dependencies": {
-    "mongoose": "~3.8.8",
-    "mongoose-unique-validator": "~0.3.0"
   }
 }
