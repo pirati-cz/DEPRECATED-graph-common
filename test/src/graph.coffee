@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 ConfigurationManager = require('../../lib/configuration_manager')
@@ -20,7 +20,7 @@ describe('Graph', () ->
           GQL: './gql'
         },
         StorageManager: "mongodb://localhost/graph",
-        NodeManager: { 
+        NodeManager: {
           "node/one" : { name: "node/one", router: 'EchoRouter' }
         },
         RouteManager: {

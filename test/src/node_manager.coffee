@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 NodeManager = require('../../lib/node_manager')
@@ -9,7 +9,7 @@ describe('NodeManager', () ->
   describe('query', () ->
 
     it('should update node information in query', (done) ->
-      node_mapping = { 
+      node_mapping = {
         "status" : { name: "status", router: 'DummyRouter' }
       }
       node_manager = new NodeManager(node_mapping)

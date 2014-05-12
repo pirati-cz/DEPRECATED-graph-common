@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 GQL = require('../../lib/gql')

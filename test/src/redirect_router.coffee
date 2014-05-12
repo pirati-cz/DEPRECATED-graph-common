@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 RedirectRouter = require('../../lib/redirect_router')

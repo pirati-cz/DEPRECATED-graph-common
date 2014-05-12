@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 ConfigurationManager = require('../../lib/configuration_manager')

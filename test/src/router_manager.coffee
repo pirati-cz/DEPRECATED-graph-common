@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 should = require('should')
 RouterManager = require('../../lib/router_manager')

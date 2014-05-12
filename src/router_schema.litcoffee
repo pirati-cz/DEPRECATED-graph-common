@@ -3,9 +3,9 @@ Model schema for Router objects
     class RouterSchema
 
       @schema = { name: 'Router', definition: {
-          name: { type: String, required: true, unique: true },
-          configuration: {}
-          }}
+        name: { type: String, required: true, unique: true },
+        configuration: {}
+      }}
 
       @methods = {
 
