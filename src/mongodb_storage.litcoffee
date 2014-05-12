@@ -1,3 +1,5 @@
+MongoDBStorage is MongoDB Graph API Storage implementation using mongoose
+
     class MongoDBStorage
 
       constructor: (database_uri) ->

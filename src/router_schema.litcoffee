@@ -1,3 +1,5 @@
+Model schema for Router objects
+
     class RouterSchema
 
       @schema = { name: 'Router', definition: {

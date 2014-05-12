@@ -1,3 +1,5 @@
+GQL can read GQL text and parse it to Graph API queries
+
     Query = require('./query')
 
     class GQL

@@ -1,3 +1,5 @@
+RouterManager takes care of building query's path through its routers.
+
     class RouterManager
 
       constructor: (router_mapping) ->

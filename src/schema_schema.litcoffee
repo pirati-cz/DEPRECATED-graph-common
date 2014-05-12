@@ -1,3 +1,5 @@
+Model schema for Schema objects
+
     class SchemaSchema
 
       @schema = { name: 'Schema', definition: {

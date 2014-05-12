@@ -1,3 +1,5 @@
+StorageManager takes care of loading proper Graph API Storage implementation
+
     Query = require('./query')
 
     class StorageManager

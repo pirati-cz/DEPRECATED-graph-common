@@ -1,3 +1,5 @@
+SchemaManager takes care of schemas and models and their loading
+
     class SchemaManager
 
       constructor: (core_model_mapping, database) ->

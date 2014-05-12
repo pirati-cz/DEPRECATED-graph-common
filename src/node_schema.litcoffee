@@ -1,3 +1,5 @@
+Model schema for Node objects
+
     class NodeSchema
 
       @schema = { name: 'Node', definition: {

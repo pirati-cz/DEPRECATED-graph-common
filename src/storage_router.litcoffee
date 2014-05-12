@@ -1,3 +1,5 @@
+StorageRouter is Graph API Router processing calls to Graph API Storage. This is basic CRUD router.
+
     class StorageRouter
 
       @route: (query, callback) ->

@@ -1,3 +1,5 @@
+Graph is the core module. It loads all submodules when instantiate depending on the configuration.
+
     GQL = null
     SchemaManager = null
     StorageManager = null

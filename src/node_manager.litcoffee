@@ -1,3 +1,5 @@
+NodeManager takes care of Graph API Nodes and updates Query's Node information
+
     class NodeManager
 
       constructor: (node_mapping, database, done) ->

@@ -1,3 +1,5 @@
+Graph API Query
+
     class Query
 
       constructor: (node, action, data) ->
