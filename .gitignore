@@ -1,4 +1,5 @@
 docs
+logs
 lib/*
 src/*.js
 node_modules

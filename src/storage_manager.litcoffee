@@ -4,7 +4,8 @@ StorageManager takes care of loading proper Graph API Storage implementation
 
     class StorageManager
 
-      constructor: (configuration_uri) ->
+      constructor: (graph, configuration_uri) ->
+        @graph = graph
         @configuration = uri: configuration_uri
         @parse_configuration_uri(configuration_uri)
         @load_driver()

@@ -15,7 +15,7 @@ MongoDBStorage is MongoDB Graph API Storage implementation using mongoose
 
       create: (query, callback) ->
         model = @model(query.schema)
-        object = new model(object)
+        object = new model(query.data)
         object.save(callback)
 
       read: (query, callback) ->

@@ -1,4 +1,4 @@
-var graphlib = require('./') 
+var graphlib = require('./')
 var ConfigurationManager = graphlib.ConfigurationManager;
 var Graph = graphlib.Graph;
 
@@ -9,45 +9,24 @@ mongo_uri = "mongodb://"+mongo_host+":"+mongo_port+"/"+mongo_database
 
 var cm = new ConfigurationManager({
   name: "Piráti Open Graph API",
-  di: {
-    StorageManager: './storage_manager',
-    SchemaManager: './schema_manager',
-    NodeManager: './node_manager',
-    RouterManager: './router_manager',
-    GQL: './gql'
-  },
-  SchemaManager: {
-    "Schema": "./schema_schema",
-    "Node": "./node_schema",
-    "Router": "./router_schema"
-  },
   StorageManager: mongo_uri,
-  NodeManager: {
-    "": { name: "root", path: "", router: 'EchoRouter' },
-    "echo": { name: "echo", path: "echo", router: 'EchoRouter' },
-    "echo/redirect": { name: "redirect", path: "echo/redirect", router: 'RedirectRouter', configuration: { redirect: "echo" } },
-    "node": { name: "node", path: "node", router: 'StorageRouter', configuration: { schema: "Node" } }
-  },
-  RouterManager: {
-    "EchoRouter": { name: "EchoRouter", require: "./echo_router" },
-    "RedirectRouter": { name: "RedirectRouter", require: "./redirect_router" },
-    "StorageRouter": { name: "StorageRouter", require: "./storage_router" }
-  },
+  logLevel: 'silly',
+  logFile: 'logs/graph.log'
 });
 
 var gql_script = [
-	'echo read { "name": "dummy1"}',
+  '/',
+  'echo read { "name": "dummy1"}',
 	'echo/redirect read { "name": "dummy2"}',
-//  'node create { "name": "mirror", "path": "mirror", "router": "StorageRouter", "configuration": { "schema": "Node" } }',
-  'mirror/?property=name&property=path&skip=0&limit=2&conditions={"name":"mirror"}&sort=-name read',
-  'mirror/53673fac16c3f9ce329aa6c9 read'].join("\n");
+  'node/?property=name&property=path&skip=0&limit=2&conditions={"name":"mirror"}&sort=-name read',
+  'node/53673fac16c3f9ce329aa6c9 read'].join("\n");
 
 function display_object(query) {
-  if (typeof (query.result) === 'string') {
-    console.log(JSON.parse(query.result));
-    return;
+  try {
+    console.log(JSON.parse(query.data));
+  } catch (e) {
+    console.log(query.data);
   }
-  console.log(query.result);
 }
 var graph = new Graph(cm, function () {
   graph.run(gql_script, display_object);

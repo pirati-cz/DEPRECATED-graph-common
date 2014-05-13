@@ -2,9 +2,10 @@ SchemaManager takes care of schemas and models and their loading
 
     class SchemaManager
 
-      constructor: (core_model_mapping, database) ->
+      constructor: (graph, core_model_mapping) ->
         self = @
-        @database = database
+        @graph = graph
+        @database = @graph.database
         @schemas = []
         @models = []
         @core_model_mapping = core_model_mapping
@@ -32,6 +33,7 @@ SchemaManager takes care of schemas and models and their loading
             @load_schema(schema)))
 
       load_schema: (schema, callback) ->
+        @graph.verbose('SchemaManager> add:', schema.name)
         Schema = @database.Schema
         @schemas[schema.name] = new Schema(schema.definition)
         @database.apply_plugins(@schemas[schema.name])

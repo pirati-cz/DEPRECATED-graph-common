@@ -1,6 +1,6 @@
 {
   "name": "graph-common",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Open Graph API core js lib",
   "keywords": [
     "pirate",
@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "mongoose": "~3.8.8",
-    "mongoose-unique-validator": "~0.3.0"
+    "mongoose-unique-validator": "~0.3.0",
+    "winston": "~0.7.3"
   },
   "devDependencies": {
     "async": "~0.2.9",

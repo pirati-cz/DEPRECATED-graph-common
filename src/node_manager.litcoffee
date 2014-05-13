@@ -1,24 +1,30 @@
 NodeManager takes care of Graph API Nodes and updates Query's Node information
 
+    Node = null
+
     class NodeManager
 
-      constructor: (node_mapping, database, done) ->
-        @database = database
-        @Node = @database.model('Node')
-        @node_mapping = node_mapping
+      constructor: (graph, done) ->
+        @graph = graph
+        @database = @graph.database
+        Node = @database.model('Node')
         @nodes = {}
-        for node_path of node_mapping
-          @add_node(new @Node(node_mapping[node_path]))
         @load_nodes(done)
 
       load_nodes: (done) ->
         self = @
-        @Node.find({}, (err, nodes) ->
+        Node.find({}, (err, nodes) ->
           self.add_node node for node in nodes
           done())
 
       add_node: (node) ->
+        @graph.verbose('NodeManager> add:',node.name)
         @nodes[node.path] = node
+
+      create_node: (node_data) ->
+        @graph.verbose('NodeManager> create:', node_data)
+        node = new Node node_data
+        @add_node node
 
       query: (query, callback) ->
         if typeof query.node == 'string'
@@ -42,7 +48,8 @@ NodeManager takes care of Graph API Nodes and updates Query's Node information
               query.search_query.conditions ?= {}
               query.search_query.conditions._id = query.unresolved_pathname
             query.node_path = node.path
-            )
+            query.graph.verbose('NodeManager> resolved:', node.path)
+          )
 
       find_node: (node_path, callback) ->
         unless node_path or node_path = ''

@@ -4,6 +4,7 @@ Model schema for Router objects
 
       @schema = { name: 'Router', definition: {
         name: { type: String, required: true, unique: true },
+        require: { type: String, required: true },
         configuration: {}
       }}
 
