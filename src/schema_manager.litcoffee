@@ -1,5 +1,7 @@
 SchemaManager takes care of schemas and models and their loading
 
+    self = null
+
     class SchemaManager
 
       constructor: (graph, core_model_mapping) ->
@@ -30,7 +32,7 @@ SchemaManager takes care of schemas and models and their loading
         Schema = @model('Schema')
         Schema.find({}, (err, schemas) ->
           schemas.forEach((schema) ->
-            @load_schema(schema)))
+            self.load_schema(schema)))
 
       load_schema: (schema, callback) ->
         @graph.verbose('SchemaManager> add:', schema.name)

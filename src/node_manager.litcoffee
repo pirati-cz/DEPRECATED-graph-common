@@ -29,9 +29,8 @@ NodeManager takes care of Graph API Nodes and updates Query's Node information
       query: (query, callback) ->
         if typeof query.node == 'string'
           parsed = require('url').parse(query.node, true)
-
-          node_path = parsed.pathname
-          node_path.replace(/^\//g, '').replace(/\/$/g, '')
+          node_path = parsed.pathname.replace(/^\//g, '').replace(/\/$/g, '')
+          @graph.verbose('NodeManager> path:', node_path)
 
           query.search_query = parsed.query || {}
           conditions = query.search_query.conditions
