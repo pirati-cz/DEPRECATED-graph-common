@@ -5,12 +5,12 @@ StorageRouter is Graph API Router processing calls to Graph API Storage. This is
       @route: (query, callback) ->
         query.graph.debug('StorageRouter> CRUD:', {
           action: query.action,
-          schema: query.node.configuration.schema,
+          schema: query.current_router.configuration,
           data: query.data,
           search: query.search_query
         })
         db = query.graph.storage_manager.database
-        query.schema = query.node.configuration.schema
+        query.schema = query.current_router.configuration
         query.data = JSON.parse(query.data) if query.data and (typeof query.data is 'string')
 
         if query.action in ['create', 'read', 'update', 'delete']

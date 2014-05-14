@@ -5,8 +5,7 @@ Model schema for Node objects
       @schema = { name: 'Node', definition: {
         name: { type: String, required: true, unique: true },
         path: { type: String, required: true, unique: true },
-        router: { type: String, required: true },
-        configuration: {}
+        routers: {}
       }}
 
       @methods = {

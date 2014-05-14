@@ -32,7 +32,10 @@ RouterManager takes care of building query's path through its routers.
         @add_router router
 
       query: (query) ->
-        @graph.verbose('RouterManager> resolved:', query.node.router)
-        query.router = @get_router(query.node.router)
+        query.routers = []
+        for router_name, router_config of query.node.routers
+          query.routers.push { name: router_name, configuration: router_config, router: @get_router(router_name) }
+        @graph.verbose('RouterManager> resolved:', query.routers)
+        query.current_router = query.routers.shift()
 
     module.exports = RouterManager

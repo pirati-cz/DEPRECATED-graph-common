@@ -17,7 +17,8 @@ var cm = new ConfigurationManager({
 var gql_script = [
   '/',
   'echo read { "name": "dummy1"}',
-	'echo/redirect read { "name": "dummy2"}',
+  'echo/redirect read { "name": "dummy2"}',
+  'chain read test',
   'node/?property=name&property=path&skip=0&limit=2&conditions={"name":"mirror"}&sort=-name read',
   'node/53673fac16c3f9ce329aa6c9 read'].join("\n");
 

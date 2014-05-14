@@ -3,7 +3,7 @@ RedirectRouter is Graph API Router redirecting query to a node specified in node
     class RedirectRouter
 
       @route: (query, callback) ->
-        query.graph.node_manager.find_node(query.node.configuration.redirect, (node) ->
+        query.graph.node_manager.find_node(query.current_router.configuration, (node) ->
           query.node = node
           query.graph.query(query, callback)
           )

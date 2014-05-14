@@ -14,21 +14,32 @@ Bootstrap Graph API
         graph.create_node {
           name: "root",
           path: "",
-          router: 'StaticRouter',
-          configuration: { data: "Piráti Open Graph API" }
+          routers: {
+            StaticRouter: "Piráti Open Graph API"
+          }
         }
 
-        graph.create_node { name: "echo", path: "echo", router: 'EchoRouter' }
+        graph.create_node { name: "echo", path: "echo", routers: { EchoRouter: true } }
 
         graph.create_node {
           name: "redirect",
           path: "echo/redirect",
-          router: 'RedirectRouter',
-          configuration: { redirect: "echo" }
+          routers: {
+            RedirectRouter: "echo"
+          }
         }
 
-        graph.create_node { name: "schema", path: "schema", router: 'StorageRouter', configuration: { schema: "Schema" } }
-        graph.create_node { name: "router", path: "router", router: 'StorageRouter', configuration: { schema: "Router" } }
-        graph.create_node { name: "node",   path: "node",   router: 'StorageRouter', configuration: { schema: "Node" } }
+        graph.create_node { name: "schema", path: "schema", routers: { StorageRouter: "Schema" } }
+        graph.create_node { name: "router", path: "router", routers: { StorageRouter: "Router" } }
+        graph.create_node { name: "node",   path: "node",   routers: { StorageRouter: "Node" } }
+
+        graph.create_node {
+          name: "chain",
+          path: "chain",
+          routers: {
+            StaticRouter: "Chained echo",
+            RedirectRouter: "echo/redirect"
+          }
+        }
 
     module.exports = Bootstrap

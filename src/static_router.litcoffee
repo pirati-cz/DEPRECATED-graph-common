@@ -3,7 +3,8 @@ StaticRouter is Graph API Router returning always the data specified in node's c
     class StaticRouter
 
       @route: (query, callback) ->
-        query.data = query.node.configuration.data
+        query.graph.debug('StaticRouter>', { data: query.current_router.configuration })
+        query.data = query.current_router.configuration
         callback(query)
 
     module.exports = StaticRouter
